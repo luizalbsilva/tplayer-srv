@@ -1,16 +1,18 @@
 const { Midia } = require('../models')
 const { midia_capitulos } = require('../models')
 const { Capitulos } = require('../models')
-//const { Livros } = require('../models')
 
 const uploadMidia = async (request,response) => {
 
-    const { nome, id_cap } = request.body
+    const { nome, id_Streaming, small_description, time_duration, id_cap } = request.body
 
     try {
 
         const criaMidia = await Midia.create({
-            nome
+            nome,
+            id_Streaming,
+            small_description,
+            time_duration
         })
 
         const id_midia = criaMidia.id_midia
