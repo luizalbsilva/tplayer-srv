@@ -6,28 +6,33 @@ const uploadMidia = async (request,response) => {
 
     const { nome, id_Streaming, small_description, time_duration, id_cap } = request.body
 
-    try {
+    if(!(nome && id_Streaming && small_description && time_duration)) {
+        response.status(400).send("Preencha os campos corretamente!")
+    } else {
 
-        const criaMidia = await Midia.create({
-            nome,
-            id_Streaming,
-            small_description,
-            time_duration
-        })
+        try {
 
-        const id_midia = criaMidia.id_midia
-        console.log(id_midia)
-       
-        const gravaMidiaLivroCap = await midia_capitulos.create({
-            id_midia,
-            id_cap
-            
-        })
-
-        return response.status(201).send("Midia salva com sucesso!")
+            const criaMidia = await Midia.create({
+                nome,
+                id_Streaming,
+                small_description,
+                time_duration
+            })
     
-    } catch (err) {
-        return response.status(500).send("Erro interno")
+            const id_midia = criaMidia.id_midia
+            console.log(id_midia)
+           
+            const gravaMidiaLivroCap = await midia_capitulos.create({
+                id_midia,
+                id_cap
+                
+            })
+    
+            return response.status(201).send("Midia salva com sucesso!")
+        
+        } catch (err) {
+            return response.status(500).send("Erro interno")
+        }
     }
 
 }
